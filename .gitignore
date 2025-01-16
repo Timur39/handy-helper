@@ -5,3 +5,7 @@ env
 node_modules
 .env
 .env-pg
+app/credentials.json
+app/token.json
+news.session
+/migration

@@ -1,10 +1,12 @@
 from fastapi import APIRouter
 from app.utils.users_methods import get_all_users, create_user, delete_user_by_id
+from async_lru import alru_cache
 
-router = APIRouter()
+router = APIRouter(tags=['auth'])
 
 
 @router.get("/users")
+@alru_cache(ttl=120)
 async def get_all_users_router():
     users = await get_all_users()
     return users
