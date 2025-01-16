@@ -1,7 +1,8 @@
 import requests
 from datetime import datetime, timedelta
+from dependencies import github_api_token
 
-API_TOKEN = "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"
+API_TOKEN = github_api_token
 
 # Заголовки с авторизацией
 headers = {
