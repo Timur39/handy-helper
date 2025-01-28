@@ -1,37 +1,32 @@
 import SitesDataCard from "../components/SitesDataCard";
-
-
-const testFields = [
-  {key: "title", label: "Заголовок"},
-  {key: "description", label: "Описание"},
-  {key: "link", label: "Ссылка", isLink: true},
-  {key: "date", label: "Дата"},
-];
-
-const testData = [{
-    title: "Заголовок ОЧЕНЬ ВАЖНЫХ планов!",
-    description: "Описание ОЧЕНЬ ВАЖНЫХ планов!",
-    link: "https://google.com",
-    date: "2023-01-01",
-},
-{
-  title: "Заголовок ОЧЕНЬ ВАЖНЫХ планов!",
-  description: "Описание ОЧЕНЬ ВАЖНЫХ планов!",
-  link: "https://google.com",
-  date: "2023-01-01",
-},
-{
-  title: "Заголовок ОЧЕНЬ ВАЖНЫХ планов!",
-  description: "Описание ОЧЕНЬ ВАЖНЫХ планов!",
-  link: "https://google.com",
-  date: "2023-01-01",
-}]
+import { getQuotesData, QuotesFields } from "../api/quotes_api";
+import { useQuery } from "@tanstack/react-query";
 
 
 const Quotes = () => {
-    return <div>
-    <SitesDataCard title={"Котирвки"} icon={"https://cdn.icon-icons.com/icons2/1526/PNG/72/dollarbills_106609.png "} data={testData} fields={testFields} />
-    </div>;
+  let isLoading = false
+  const interval = 120000
+
+  // Получаем данные через useQuery
+  const { data: quotesData, isLoading: isLoadingQuotes, error: errorQuotes } = useQuery({
+      queryKey: ["quotes"], 
+      queryFn: getQuotesData,
+      refetchInterval: interval,
+  });
+
+
+  if (isLoadingQuotes) {
+    isLoading = true
+  }
+
+  if (errorQuotes) {
+    return <div>Ошибка загрузки данных</div>;
+  }
+
+return <div className="flex gap-12">
+    <SitesDataCard title={"Котирвки"} icon={"/static/quotes_icon.png"} data={quotesData} fields={QuotesFields} isLoading={isLoading} />
+  </div>;
+
   };
-  
-  export default Quotes;
+
+export default Quotes;

@@ -3,7 +3,7 @@ import axiosInstance from './axiosInstance';
 
 export const getGmailData = async () => {
   try {
-    const response = await axiosInstance.get('/gmail/emails');
+    const response = await axiosInstance.get('/emails');
     return response.data;
   } catch (error) {
     console.error('Error fetching data:', error);

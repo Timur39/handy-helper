@@ -22,7 +22,7 @@ const News = () => {
       return <div>Ошибка загрузки данных</div>;
     }
     return <div>
-    <SitesDataCard title={"Новости"} icon={"https://cdn.icon-icons.com/icons2/625/PNG/72/newspaper_icon-icons.com_57398.png"} data={NewsData} fields={NewsFields} isLoading={isLoading} />
+    <SitesDataCard title={"Новости"} icon={"/static/news_icon.png"} data={NewsData} fields={NewsFields} isLoading={isLoading} />
 
     </div>;
   };

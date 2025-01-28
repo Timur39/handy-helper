@@ -38,9 +38,9 @@ const Sites = () => {
   }
 
 return <div className="flex gap-12">
-    <SitesDataCard title={"Modrinth"} icon={"https://cdn.icon-icons.com/icons2/3913/PNG/72/modrinth_logo_icon_248441.png"} data={modrinthData} fields={ModrinthFields} isLoading={isLoading} />
-    <SitesDataCard title={"GitHub"} icon={"https://cdn.icon-icons.com/icons2/936/PNG/72/github-logo_icon-icons.com_73546.png"} data={githubData} fields={GithubFields} isLoading={isLoading} />
-    <SitesDataCard title={"Gmail"} icon={"https://cdn.icon-icons.com/icons2/2631/PNG/72/gmail_new_logo_icon_159149.png"} data={gmailData} fields={GmailFields} isLoading={isLoading} />
+    <SitesDataCard title={"Modrinth"} icon={"/static/modrinth_icon.png"} data={modrinthData} fields={ModrinthFields} isLoading={isLoading} />
+    <SitesDataCard title={"GitHub"} icon={"/static/github_icon.png"} data={githubData} fields={GithubFields} isLoading={isLoading} />
+    <SitesDataCard title={"Gmail"} icon={"/static/gmail_icon.png"} data={gmailData} fields={GmailFields} isLoading={isLoading} />
   </div>;
 
   };

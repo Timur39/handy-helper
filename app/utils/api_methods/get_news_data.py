@@ -1,21 +1,12 @@
 from datetime import datetime, timedelta
 from telethon.sync import TelegramClient
 from telethon.tl.functions.messages import GetHistoryRequest
-from dotenv import load_dotenv
+from app.dependencies import CHANNELS, api_hash, api_id
 import asyncio
-import os
 
-load_dotenv()
 
-API_ID = os.getenv("API_ID")
-API_HASH = os.getenv("API_HASH")
-
-# Список каналов
-CHANNELS = ['@Minecraftoday', '@naebnet']
-MESSAGES_LIMIT = 20
-
-async def get_news(timedelta_days=2):
-    async with TelegramClient('news', API_ID, API_HASH) as client:
+async def get_news(timedelta_days=2, MESSAGES_LIMIT=20):
+    async with TelegramClient('news', api_id, api_hash) as client:
         all_posts = []
 
         for channel in CHANNELS:
@@ -51,16 +42,16 @@ async def get_news(timedelta_days=2):
                 all_posts.sort(key=lambda x: datetime.strptime(x["date"], "%Y-%m-%d %H:%M"), reverse=True)
 
             except Exception as e:
-                print(f"Error fetching posts from {channel}: {e}")
+                return f"Error fetching posts from {channel}: {e}"
 
 
         return all_posts
 
 
-async def main():
+async def get_all_news():
     posts = await get_news()
     return posts
 
 
 if __name__ == "__main__":
-    print(asyncio.run(main()))
+    print(asyncio.run(get_all_news()))

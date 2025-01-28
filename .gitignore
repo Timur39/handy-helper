@@ -1,4 +1,3 @@
-.venv
 .idea
 env
 .vs
@@ -9,3 +8,5 @@ app/credentials.json
 app/token.json
 news.session
 /migration
+venv
+app/token_youtube.json

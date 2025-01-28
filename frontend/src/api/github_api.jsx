@@ -3,7 +3,7 @@ import axiosInstance from './axiosInstance';
 
 export const getGithubData = async () => {
   try {
-    const response = await axiosInstance.get('/github/notifications');
+    const response = await axiosInstance.get('/github_notifications');
     return response.data;
   } catch (error) {
     console.error('Error fetching data:', error);

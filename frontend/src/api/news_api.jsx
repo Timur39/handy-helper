@@ -3,7 +3,7 @@ import axiosInstance from './axiosInstance';
 
 export const getNewsData = async () => {
   try {
-    const response = await axiosInstance.get('/news/news');
+    const response = await axiosInstance.get('/news');
     return response.data;
   } catch (error) {
     console.error('Error fetching data:', error);

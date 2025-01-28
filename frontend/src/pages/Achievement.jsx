@@ -1,36 +1,30 @@
 import SitesDataCard from "../components/SitesDataCard";
-
-
-const testFields = [
-  {key: "title", label: "Заголовок"},
-  {key: "description", label: "Описание"},
-  {key: "link", label: "Ссылка", isLink: true},
-  {key: "date", label: "Дата"},
-];
-
-const testData = [{
-    title: "Заголовок ОЧЕНЬ ВАЖНЫХ планов!",
-    description: "Описание ОЧЕНЬ ВАЖНЫХ планов!",
-    link: "https://google.com",
-    date: "2023-01-01",
-},
-{
-  title: "Заголовок ОЧЕНЬ ВАЖНЫХ планов!",
-  description: "Описание ОЧЕНЬ ВАЖНЫХ планов!",
-  link: "https://google.com",
-  date: "2023-01-01",
-},
-{
-  title: "Заголовок ОЧЕНЬ ВАЖНЫХ планов!",
-  description: "Описание ОЧЕНЬ ВАЖНЫХ планов!",
-  link: "https://google.com",
-  date: "2023-01-01",
-}]
+import { getStepikData, StepikFields } from "../api/stepik_api";
+import { useQuery } from "@tanstack/react-query";
 
 
 const Achievement = () => {
-    return <div>
-    <SitesDataCard title={"Успеваемость"} icon={"https://cdn.icon-icons.com/icons2/196/PNG/72/briefcase_23782.png"} data={testData} fields={testFields} />
+  let isLoading = false
+  const interval = 120000
+
+  // Получаем данные через useQuery
+  const { data: StepikData, isLoading: isLoadingStepik, error: errorStepik } = useQuery({
+      queryKey: ["achievement"], 
+      queryFn: getStepikData,
+      refetchInterval: interval,
+  });
+
+  
+  if (isLoadingStepik) {
+    isLoading = true
+  }
+
+  if (errorStepik) {
+    return <div>Ошибка загрузки данных</div>;
+  }
+
+  return <div>
+    <SitesDataCard title={"Успеваемость"} icon={"/static/achievement_icon.png"} data={StepikData} fields={StepikFields} isLoading={isLoading} />
     </div>;
   };
   

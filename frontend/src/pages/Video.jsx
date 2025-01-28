@@ -1,37 +1,32 @@
 import SitesDataCard from "../components/SitesDataCard";
-
-
-const testFields = [
-  {key: "title", label: "Заголовок"},
-  {key: "description", label: "Описание"},
-  {key: "link", label: "Ссылка", isLink: true},
-  {key: "date", label: "Дата"},
-];
-
-const testData = [{
-    title: "Заголовок ОЧЕНЬ ВАЖНЫХ планов!",
-    description: "Описание ОЧЕНЬ ВАЖНЫХ планов!",
-    link: "https://google.com",
-    date: "2023-01-01",
-},
-{
-  title: "Заголовок ОЧЕНЬ ВАЖНЫХ планов!",
-  description: "Описание ОЧЕНЬ ВАЖНЫХ планов!",
-  link: "https://google.com",
-  date: "2023-01-01",
-},
-{
-  title: "Заголовок ОЧЕНЬ ВАЖНЫХ планов!",
-  description: "Описание ОЧЕНЬ ВАЖНЫХ планов!",
-  link: "https://google.com",
-  date: "2023-01-01",
-}]
+import { getYoutubeData, YoutubeFields } from "../api/youtube_api";
+import { useQuery } from "@tanstack/react-query";
 
 
 const Video = () => {
-    return <div>
-    <SitesDataCard title={"Видео"} icon={"https://cdn.icon-icons.com/icons2/1860/PNG/72/videocamera2_118060.png"} data={testData} fields={testFields} />
-    </div>;
+  let isLoading = false
+  const interval = 120000
+
+  // Получаем данные через useQuery
+  const { data: youtubeData, isLoading: isLoadingYoutube, error: errorYoutube } = useQuery({
+      queryKey: ["youtube"], 
+      queryFn: getYoutubeData,
+      refetchInterval: interval,
+  });
+
+
+  if (isLoadingYoutube) {
+    isLoading = true
+  }
+
+  if (errorYoutube) {
+    return <div>Ошибка загрузки данных</div>;
+  }
+
+return <div className="flex gap-12">
+    <SitesDataCard title={"Видео"} icon={"/static/video_icon.png"} data={youtubeData} fields={YoutubeFields} isLoading={isLoading} />
+  </div>;
+
   };
-  
+
 export default Video;

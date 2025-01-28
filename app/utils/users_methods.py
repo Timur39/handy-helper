@@ -21,6 +21,8 @@ async def create_user(username: str, email: str, password: str, session: AsyncSe
     - session: AsyncSession - асинхронная сессия базы данных
     - admin: bool - является ли пользователь администратором
     """
+    if await session.scalar(select(User).where(User.username == username)):
+        return {'error': 'Пользователь с таким именем уже существует'}
     admin = False
     if username in list_of_admins:
         admin = True
@@ -39,6 +41,8 @@ async def delete_user_by_id(id: int, session: AsyncSession) -> None:
     :param session: AsyncSession - асинхронная сессия базы данных
     :return: None
     """
+    if not await session.scalar(select(User).where(User.id == id)):
+        return {'error': 'Пользователь не найден'}
     obj = await session.get(User, id)
 
     await session.delete(obj)

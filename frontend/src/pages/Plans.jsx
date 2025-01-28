@@ -1,36 +1,28 @@
 import SitesDataCard from "../components/SitesDataCard";
-
-
-const testFields = [
-  {key: "title", label: "Заголовок"},
-  {key: "description", label: "Описание"},
-  {key: "link", label: "Ссылка", isLink: true},
-  {key: "date", label: "Дата"},
-];
-
-const testData = [{
-    title: "Заголовок ОЧЕНЬ ВАЖНЫХ планов!",
-    description: "Описание ОЧЕНЬ ВАЖНЫХ планов!",
-    link: "https://google.com",
-    date: "2023-01-01",
-},
-{
-  title: "Заголовок ОЧЕНЬ ВАЖНЫХ планов!",
-  description: "Описание ОЧЕНЬ ВАЖНЫХ планов!",
-  link: "https://google.com",
-  date: "2023-01-01",
-},
-{
-  title: "Заголовок ОЧЕНЬ ВАЖНЫХ планов!",
-  description: "Описание ОЧЕНЬ ВАЖНЫХ планов!",
-  link: "https://google.com",
-  date: "2023-01-01",
-}]
-
+import { useQuery } from "@tanstack/react-query";
+import { getTodoistData, TodoistFields} from "../api/todoist_api"
 
 const Plans = () => {
+  let isLoading = false
+  const interval = 120000
+
+  // Получаем данные через useQuery
+  const { data: TodoistData, isLoading: isLoadingTodoist, error: errorTodoist } = useQuery({
+      queryKey: ["todoist"], 
+      queryFn: getTodoistData,
+      refetchInterval: interval,
+  });
+
+  
+  if (isLoadingTodoist) {
+    isLoading = true
+  }
+
+  if (errorTodoist) {
+    return <div>Ошибка загрузки данных</div>;
+  }
     return <div>
-    <SitesDataCard title={"Планы"} icon={"https://cdn.icon-icons.com/icons2/1860/PNG/72/clipboardplan_118087.png "} data={testData} fields={testFields} />
+    <SitesDataCard title={"Планы"} icon={"/static/plan_icon.png"} data={TodoistData} fields={TodoistFields} />
     </div>;
   };
   
