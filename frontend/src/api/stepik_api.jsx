@@ -12,10 +12,11 @@ export const getStepikData = async () => {
 };
 
 export const StepikFields = [
-  { key: "id", label: "Название" },
+  // { key: "id", label: "id" },
   { key: "knowledge", label: "Знания", },
   { key: "solved_steps_count", label: "Задач пройдено" },
   { key: "issued_certificates_count", label: "Кол-во сертификатов" },
+  { key: "link", label: "Ссылка", isLink: true },
 ];
 
 export default { getStepikData, StepikFields };

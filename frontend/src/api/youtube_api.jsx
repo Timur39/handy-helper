@@ -12,11 +12,13 @@ export const getYoutubeData = async () => {
 };
 
 export const YoutubeFields = [
+  { key: "preview_url", label: "Превью", isImg: true},
   { key: "title", label: "Название" },
-  { key: "url", label: "Ссылка", isLink: true },
-  { key: "preview_url", label: "Превью", isLink: true },
   { key: "duration", label: "Длительность" },
+  { key: "views", label: "Просмотры" },
   { key: "date", label: "Дата" },
+  { key: "url", label: "Ссылка", isLink: true },
+  { key: "channel", label: "Канал" },
 ];
 
 export default { getYoutubeData, YoutubeFields };

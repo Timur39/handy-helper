@@ -10,7 +10,7 @@ from app.utils.api_methods.get_youtube_data import get_youtube_videos
 from async_lru import alru_cache
 
 router = APIRouter(tags=["api"], prefix='/api')
-ttl_cache = 120
+ttl_cache = 30
 
 @router.get("/github_notifications")
 @alru_cache(ttl=ttl_cache)
@@ -55,7 +55,7 @@ async def get_tasks():
     return tasks
 
 @router.get("/youtube_videos")
-@alru_cache(ttl=1200)
+@alru_cache(ttl=ttl_cache)
 async def get_youtube():
     video = await get_youtube_videos()
     return video

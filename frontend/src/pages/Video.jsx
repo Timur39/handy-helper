@@ -1,6 +1,7 @@
 import SitesDataCard from "../components/SitesDataCard";
-import { getYoutubeData, YoutubeFields } from "../api/youtube_api";
 import { useQuery } from "@tanstack/react-query";
+import { getYoutubeData, YoutubeFields } from "../api/youtube_api";
+
 
 
 const Video = () => {
@@ -22,11 +23,9 @@ const Video = () => {
   if (errorYoutube) {
     return <div>Ошибка загрузки данных</div>;
   }
-
-return <div className="flex gap-12">
-    <SitesDataCard title={"Видео"} icon={"/static/video_icon.png"} data={youtubeData} fields={YoutubeFields} isLoading={isLoading} />
-  </div>;
-
+    return <div className="flex gap-12">
+      <SitesDataCard title={"Видео"} icon={"/static/video_icon.png"} data={youtubeData} fields={YoutubeFields} isLoading={isLoading} />
+    </div>;
   };
 
-export default Video;
+  export default Video;

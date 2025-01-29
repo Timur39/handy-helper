@@ -10,3 +10,4 @@ news.session
 /migration
 venv
 app/token_youtube.json
+app/my_subscriptions.txt

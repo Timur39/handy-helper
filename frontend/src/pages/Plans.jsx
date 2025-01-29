@@ -22,8 +22,9 @@ const Plans = () => {
     return <div>Ошибка загрузки данных</div>;
   }
     return <div>
-    <SitesDataCard title={"Планы"} icon={"/static/plan_icon.png"} data={TodoistData} fields={TodoistFields} />
+    <SitesDataCard title={"Планы"} icon={"/static/plan_icon.png"} data={TodoistData} fields={TodoistFields} isLoading={isLoading} />
     </div>;
   };
   
   export default Plans;
+  

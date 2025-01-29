@@ -32,9 +32,10 @@ async def get_user_activity():
         user_data = response.json()['users'][0]
         user.append({'id': user_data['id'], 
                      'knowledge': user_data['knowledge'], 
-                    #  'knowledge_rank': user_data['knowledge_rank'], 
                      'solved_steps_count': user_data['solved_steps_count'],
-                     'issued_certificates_count': user_data['issued_certificates_count'],})
+                     'issued_certificates_count': user_data['issued_certificates_count'],
+                     'link': f'https://stepik.org/users/{user_data['id']}/profile'}
+                     )
 
         return user
     else:

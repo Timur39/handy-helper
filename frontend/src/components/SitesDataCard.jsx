@@ -1,13 +1,10 @@
 import React from 'react';
-import { Card, Col, Row } from 'antd';
+import { Card, Col } from 'antd';
 
-
-let clickLink = ''
 
 const SitesDataCard = ({ title, icon, data, fields, isLoading }) => {
   const dataArray = Object.values(data || {});
-  
-
+  console.log(dataArray)
   return (
     <div>
       <Col span={24}>
@@ -43,7 +40,7 @@ const SitesDataCard = ({ title, icon, data, fields, isLoading }) => {
                   {field.isList ? (
                     item[field.key]?.join(", ") || "Нет данных"
                   ) : field.isImg ? (
-                    <img src={item[field.key]}></img>
+                    <img src={item[field.key]} ></img>
                   ) : field.IsDate ? (
                     item[field.key] || "Нет данных"
                   ) : !field.isLink ? (
