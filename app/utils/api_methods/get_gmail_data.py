@@ -3,6 +3,7 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from googleapiclient.discovery import build
 from datetime import datetime
+from app.schemas.api_schemas import Gmail_Schema
 import asyncio
 import os
 
@@ -25,7 +26,7 @@ async def get_creds(creds):
     return creds
 
 
-async def get_gmails(count=10):
+async def get_gmails(count=10) -> list[Gmail_Schema]:
     creds = None
 
     # Проверка существующего токена
@@ -56,13 +57,18 @@ async def get_gmails(count=10):
         mail_date = next((header['value'] for header in headers if header['name'] == 'Date'), 'Без темы')
 
         # TODO: Не та тайм зона нужно переделать на utc +3
-        date_obj = datetime.strptime(mail_date.split('(')[0].strip(), "%a, %d %b %Y %H:%M:%S %z")
-        formatted_date = date_obj.strftime("%Y-%m-%d %H:%M")    
+        date_obj = datetime.strptime(mail_date.split('(')[0].strip().replace('GMT', '+0000'), "%a, %d %b %Y %H:%M:%S %z")
+        formatted_date = date_obj.strftime("%Y-%m-%d %H:%M")   
 
         # Формируем ссылку на сообщение
         message_link = f"https://mail.google.com/mail/u/0/#all/{msg_id}"
 
-        result.append({'title': mail_title, 'date': formatted_date, 'link': message_link})
+        result.append(
+            Gmail_Schema(
+                title=mail_title, 
+                date=formatted_date, 
+                link=message_link
+                ))
     
     return result
 

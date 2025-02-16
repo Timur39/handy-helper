@@ -8,54 +8,63 @@ from app.utils.api_methods.get_stepik_data import get_user_activity
 from app.utils.api_methods.get_todoist_data import get_today_tasks
 from app.utils.api_methods.get_youtube_data import get_youtube_videos
 from async_lru import alru_cache
-
+from app.schemas.api_schemas import Github_Schema, News_Schema, Price_Schema, Gmail_Schema, \
+                                    Todoist_Schema, Modrinth_Schema, Stepik_Schema, Youtube_Schema
 router = APIRouter(tags=["api"], prefix='/api')
-ttl_cache = 30
+ttl_cache = 60
 
-@router.get("/github_notifications")
+@router.get("/github_notifications", summary="Получить уведомления из GitHub", 
+            description="Получить уведомления из GitHub за последние 2 дня")
 @alru_cache(ttl=ttl_cache)
-async def get_notifications_from_github():
+async def get_notifications_from_github() -> list[Github_Schema]:
     notifications = await get_github_notifications(2)
     return notifications
 
-@router.get("/emails")
+@router.get("/emails", summary="Получить сообщения из Gmail",
+            description="Получить последние 10 сообщений из Gmail")
 @alru_cache(ttl=ttl_cache)
-async def get_emails_from_gmail():
+async def get_emails_from_gmail() -> list[Gmail_Schema]:
     emails = await get_gmails(10)
     return emails
 
-@router.get("/modrinth_notifications")
+@router.get("/modrinth_notifications", summary="Получить уведомления из Modrinth",
+            description="Получить последние 5 уведомлений из Modrinth")
 @alru_cache(ttl=ttl_cache)
-async def get_notifications_from_modrinth():
+async def get_notifications_from_modrinth() -> list[Modrinth_Schema]:
     notifications = await get_modrinth_notifications(5)
     return notifications
 
-@router.get("/news")
+@router.get("/news", summary="Получить новости", 
+            description="Получить последние 20 сообщений со всех источников")
 @alru_cache(ttl=ttl_cache)
-async def get_news():
+async def get_news() -> list[News_Schema]:
     news = await get_all_news()
     return news
 
-@router.get("/prices")
+@router.get("/prices", summary="Получить курсы валют", 
+            description="Получить курсы валют. Рубля, доллара, биткойна")
 @alru_cache(ttl=ttl_cache)
-async def get_prices():
+async def get_prices() -> list[Price_Schema]:
     prices = await get_currencies_price()
     return prices
 
-@router.get("/stepik_user_activity")
+@router.get("/stepik_user_activity", summary="Получить статистику Stepik",
+            description="Получить статистику Stepik. Сделанные задачи, полученные сертификаты")
 @alru_cache(ttl=ttl_cache)
-async def get_tasks():
+async def get_stepik_activity() -> list[Stepik_Schema]:
     user_activity = await get_user_activity()
     return user_activity
 
-@router.get("/todoist_tasks")
+@router.get("/todoist_tasks", summary="Получить задачи из Todoist",
+            description="Получить задачи на сегодня из Todoist")
 @alru_cache(ttl=ttl_cache)
-async def get_tasks():
+async def get_todoist_tasks() -> list[Todoist_Schema]:
     tasks = await get_today_tasks()
     return tasks
 
-@router.get("/youtube_videos")
+@router.get("/youtube_videos", summary="Получить видео из Youtube",
+            description="Получить видео за последние 24 часа из Youtube. С определенных каналов")
 @alru_cache(ttl=ttl_cache)
-async def get_youtube():
+async def get_youtube() -> list[Youtube_Schema]:
     video = await get_youtube_videos()
     return video

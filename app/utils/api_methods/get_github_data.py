@@ -1,7 +1,7 @@
 import requests
 from datetime import datetime, timedelta
 from app.dependencies import github_api_token
-
+from app.schemas.api_schemas import Github_Schema
 
 # Заголовки с авторизацией
 headers = {
@@ -10,7 +10,7 @@ headers = {
     "X-GitHub-Api-Version": "2022-11-28",
 }
 
-async def get_github_notifications(timedelta_days=2):
+async def get_github_notifications(timedelta_days=2) -> list[Github_Schema]:
     try:
         # Отправляем запрос к API
         response = requests.get('https://api.github.com/user/following', headers=headers)
@@ -51,17 +51,15 @@ async def get_github_notifications(timedelta_days=2):
                             date_obj = datetime.strptime(data['created_at'], "%Y-%m-%dT%H:%M:%SZ")
                             formatted_date = date_obj.strftime("%Y-%m-%d %H:%M")
 
-                            result.append({
-                                'actor': data['actor']['display_login'],
-                                'type': data['type'],
-                                'description': description,
-                                'repo': data['repo']['name'],
-                                # 'repo-url': data['repo']['url'],
-                                'actor_url': user['html_url'],
-                                # 'avatar': data['actor']['avatar_url'],
-                                'created_at': formatted_date,
-                                
-                            })
+                            result.append(
+                                Github_Schema(
+                                    actor=user['actor']['display_login'],
+                                    type=data['type'],
+                                    description=description,
+                                    repo=data['repo']['name'],
+                                    actor_url=user['html_url'],
+                                    created_at=formatted_date,
+                                ))
                 else:
                     print(f"Ошибка: {responce_project.status_code}, {responce_project.text}")
         else:

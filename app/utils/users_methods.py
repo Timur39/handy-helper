@@ -1,65 +1,66 @@
-from asyncio import run
-from typing import Sequence
-
-from sqlalchemy.ext.asyncio import AsyncSession
+from app.db.session import SesionDep
 from sqlalchemy import select
 
-from app.db.models import User
-from app.db.session import connection
+from app.db.models import UserModel
+from app.schemas.user import UserCreate, UserOut
 from app.dependencies import list_of_admins
 
 
-@connection
-async def create_user(username: str, email: str, password: str, session: AsyncSession) -> User:
+async def create_user(data: UserCreate, session: SesionDep) -> UserModel:
     """
-    Создает нового пользователя с использованием ORM SQLAlchemy.
+    Создает нового пользователя
 
-    Аргументы:
-    - username: str - имя пользователя
-    - email: str - адрес электронной почты
-    - password: str - пароль пользователя
-    - session: AsyncSession - асинхронная сессия базы данных
-    - admin: bool - является ли пользователь администратором
+    :param session: SesionDep
+    :param data: UserCreate
+    :return: User
     """
-    if await session.scalar(select(User).where(User.username == username)):
+    if await session.scalar(select(UserModel).where(UserModel.username == data.username)):
         return {'error': 'Пользователь с таким именем уже существует'}
+    
     admin = False
-    if username in list_of_admins:
+    if data.username in list_of_admins:
         admin = True
-    user = User(username=username, email=email, password=password, admin=admin)
+
+    user = UserModel(username=data.username, 
+                email=data.email, 
+                password=data.password, 
+                admin=admin)
+    
     session.add(user)
+
     await session.commit()
-    return user
+
+    return {'status': 'Пользователь успешно создан'}
 
 
-@connection
-async def delete_user_by_id(id: int, session: AsyncSession) -> None:
+async def delete_user_by_id(data: UserOut, session: SesionDep) -> UserModel | None:
     """
     Удаляет пользователя из базы данных по его идентификатору
 
-    :param id: int - идентификатор пользователя
-    :param session: AsyncSession - асинхронная сессия базы данных
-    :return: None
+    :param id: int
+    :param session: SesionDep
+    :return: User | None
     """
-    if not await session.scalar(select(User).where(User.id == id)):
+    if not await session.scalar(select(UserModel).where(UserModel.id == data.id)):
         return {'error': 'Пользователь не найден'}
-    obj = await session.get(User, id)
+    
+    obj = await session.get(UserModel, data.id)
 
     await session.delete(obj)
     await session.commit()
+
     return obj
 
 
-@connection
-async def get_all_users(session: AsyncSession) -> list[dict[str, bool | str]]:
+async def get_all_users(session: SesionDep) -> list[dict[str, bool | str]]:
     """
     Возвращает всех пользователей из базы данных
 
-    :param session: AsyncSession
-    :return: None
+    :param session: SesionDep
+    :return: list[dict[str, bool | str]]
     """
     # Создаем запрос для выборки всех пользователей
-    query = select(User)
+    query = select(UserModel)
 
     # Выполняем запрос и получаем результат
     result = await session.execute(query)

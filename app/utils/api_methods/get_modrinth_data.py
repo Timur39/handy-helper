@@ -1,6 +1,7 @@
 import requests
 from datetime import datetime
 from app.dependencies import modrinth_api_token, modrinth_user
+from app.schemas.api_schemas import Modrinth_Schema
 
 # URL для получения уведомлений
 BASE_URL = "https://api.modrinth.com/v2"
@@ -12,7 +13,7 @@ headers = {
     "Content-Type": "application/json",
 }
 
-async def get_modrinth_notifications(count=5):
+async def get_modrinth_notifications(count=5) -> list[Modrinth_Schema]:
     try:
         # Отправляем запрос к API
         response = requests.get(NOTIFICATIONS_ENDPOINT, headers=headers)
@@ -30,15 +31,13 @@ async def get_modrinth_notifications(count=5):
                     # TODO: Не та тайм зона нужно переделать на utc +3
                     date_obj = datetime.strptime(data['updated'], "%Y-%m-%dT%H:%M:%S.%fZ")
                     formatted_date = date_obj.strftime("%Y-%m-%d %H:%M")
-
-                    result.append({
-                        'title': data['title'],
-                        'game_versions': data['game_versions'][-1:-11:-1],
-                        'updated': formatted_date,
-                        'loaders': data['loaders'],
-                        'description': data['description'],
-                        'link': f'https://modrinth.com{notification['link']}'
-                    })
+                    result.append(
+                        Modrinth_Schema(title=data['title'],
+                                        game_versions=data['game_versions'][-1:-11:-1],
+                                        updated=formatted_date,
+                                        loaders=data['loaders'],
+                                        description=data['description'],
+                                        link=f'https://modrinth.com{notification['link']}'))
 
                 else:
                     return f"Ошибка: {responce_project.status_code}, {responce_project.text}"

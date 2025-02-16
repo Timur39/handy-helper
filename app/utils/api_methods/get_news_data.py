@@ -2,10 +2,11 @@ from datetime import datetime, timedelta
 from telethon.sync import TelegramClient
 from telethon.tl.functions.messages import GetHistoryRequest
 from app.dependencies import CHANNELS, api_hash, api_id
+from app.schemas.api_schemas import News_Schema
 import asyncio
 
 
-async def get_news(timedelta_days=2, MESSAGES_LIMIT=20):
+async def get_news(timedelta_days=2, MESSAGES_LIMIT=20)-> list[News_Schema]:
     async with TelegramClient('news', api_id, api_hash) as client:
         all_posts = []
 
@@ -48,7 +49,7 @@ async def get_news(timedelta_days=2, MESSAGES_LIMIT=20):
         return all_posts
 
 
-async def get_all_news():
+async def get_all_news() -> list[News_Schema]:
     posts = await get_news()
     return posts
 
