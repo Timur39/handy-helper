@@ -10,7 +10,7 @@ headers = {
     "X-GitHub-Api-Version": "2022-11-28",
 }
 
-async def get_github_notifications(timedelta_days=2) -> list[Github_Schema]:
+async def get_github_notifications(timedelta_days=2) -> list[Github_Schema] | None:
     try:
         # Отправляем запрос к API
         response = requests.get('https://api.github.com/user/following', headers=headers)
@@ -50,22 +50,18 @@ async def get_github_notifications(timedelta_days=2) -> list[Github_Schema]:
 
                             date_obj = datetime.strptime(data['created_at'], "%Y-%m-%dT%H:%M:%SZ")
                             formatted_date = date_obj.strftime("%Y-%m-%d %H:%M")
-
                             result.append(
                                 Github_Schema(
-                                    actor=user['actor']['display_login'],
+                                    actor=user['login'],
                                     type=data['type'],
                                     description=description,
                                     repo=data['repo']['name'],
                                     actor_url=user['html_url'],
                                     created_at=formatted_date,
                                 ))
-                else:
-                    print(f"Ошибка: {responce_project.status_code}, {responce_project.text}")
-        else:
-            print(f"Ошибка: {response.status_code}, {response.text}")
-        
+     
         return result
         
     except Exception as e:
         print(f"Произошла ошибка: {e}")
+        return

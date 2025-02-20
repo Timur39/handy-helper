@@ -16,14 +16,15 @@ ttl_cache = 60
 @router.get("/github_notifications", summary="Получить уведомления из GitHub", 
             description="Получить уведомления из GitHub за последние 2 дня")
 @alru_cache(ttl=ttl_cache)
-async def get_notifications_from_github() -> list[Github_Schema]:
+async def get_notifications_from_github() -> list[Github_Schema] | None:
     notifications = await get_github_notifications(2)
     return notifications
+
 
 @router.get("/emails", summary="Получить сообщения из Gmail",
             description="Получить последние 10 сообщений из Gmail")
 @alru_cache(ttl=ttl_cache)
-async def get_emails_from_gmail() -> list[Gmail_Schema]:
+async def get_emails_from_gmail() -> list[Gmail_Schema] | None:
     emails = await get_gmails(10)
     return emails
 

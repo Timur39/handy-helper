@@ -6,7 +6,7 @@ from app.schemas.api_schemas import News_Schema
 import asyncio
 
 
-async def get_news(timedelta_days=2, MESSAGES_LIMIT=20)-> list[News_Schema]:
+async def get_news(timedelta_days=2, MESSAGES_LIMIT=20) -> list[News_Schema]:
     async with TelegramClient('news', api_id, api_hash) as client:
         all_posts = []
 
