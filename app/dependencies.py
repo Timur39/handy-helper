@@ -22,3 +22,6 @@ modrinth_user = os.getenv("MODRINTH_USER")
 CHANNELS = os.getenv("CHANNELS").split(',')
 
 youtube_api_key = os.getenv("YOUTUBE_API_KEY")
+
+SMTP_PASSWORD = os.getenv("SMTP_PASSWORD")
+SMTP_USER = os.getenv("SMTP_USER")

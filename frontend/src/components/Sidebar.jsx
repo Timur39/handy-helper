@@ -38,14 +38,15 @@ const Sidebar = () => {
 
   return (
     <div className="w-48 min-w-48 h-screen fixed top-[70px] z-50">
-    <Menu
-      mode="inline"
-      defaultSelectedKeys={["dashboard"]}
-      items={items}
-      theme="dark"
-      className="bg-zinc-900 h-full"
-    />
-
+      <Menu
+        mode="inline"
+        defaultSelectedKeys={["dashboard"]}
+        items={items}
+        theme="dark"
+        className="bg-zinc-900 h-full"
+    
+      />
+    
     </div>
   );
 };

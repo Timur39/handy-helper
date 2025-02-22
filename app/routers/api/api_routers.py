@@ -11,7 +11,7 @@ from async_lru import alru_cache
 from app.schemas.api_schemas import Github_Schema, News_Schema, Price_Schema, Gmail_Schema, \
                                     Todoist_Schema, Modrinth_Schema, Stepik_Schema, Youtube_Schema
 router = APIRouter(tags=["api"], prefix='/api')
-ttl_cache = 60
+ttl_cache = 120
 
 @router.get("/github_notifications", summary="Получить уведомления из GitHub", 
             description="Получить уведомления из GitHub за последние 2 дня")
@@ -45,7 +45,7 @@ async def get_news() -> list[News_Schema]:
 @router.get("/prices", summary="Получить курсы валют", 
             description="Получить курсы валют. Рубля, доллара, биткойна")
 @alru_cache(ttl=ttl_cache)
-async def get_prices() -> list[Price_Schema]:
+async def get_prices() -> list[Price_Schema] | None:
     prices = await get_currencies_price()
     return prices
 

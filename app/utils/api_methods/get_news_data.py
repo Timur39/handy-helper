@@ -25,14 +25,14 @@ async def get_news(timedelta_days=2, MESSAGES_LIMIT=20) -> list[News_Schema]:
                 ))
 
                 for message in history.messages:
-                    post_date = message.date.strftime("%Y-%m-%d %H:%M")
+                    post_date = message.date.astimezone().strftime("%Y-%m-%d %H:%M")
                     post = {
                         "text": message.message, 
-                        "link": f"https://t.me/{channel[1:]}/{message.id}",
+                        "link": f"https://t.me/{channel[2:]}/{message.id}",
                         "date": post_date,
                         "channel": channel
                     }
-                    # TODO: Не та тайм зона нужно переделать на utc +3
+
                     time_difference = datetime.now() - datetime.strptime(post_date, "%Y-%m-%d %H:%M")
                     
                     if post['text'] and time_difference < timedelta(days=timedelta_days):
