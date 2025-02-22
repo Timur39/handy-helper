@@ -48,7 +48,7 @@ async def get_github_notifications(timedelta_days=2) -> list[Github_Schema] | No
                                 case 'WatchEvent':
                                     description = data['payload']['action']
 
-                            date_obj = datetime.strptime(data['created_at'], "%Y-%m-%dT%H:%M:%SZ")
+                            date_obj = datetime.astimezone().strptime(data['created_at'], "%Y-%m-%dT%H:%M:%SZ")
                             formatted_date = date_obj.strftime("%Y-%m-%d %H:%M")
                             result.append(
                                 Github_Schema(
