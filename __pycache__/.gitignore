@@ -1,6 +1,7 @@
 .idea
 .vs
 node_modules
+.env-pg
 app/credentials.json
 app/token.json
 news.session
@@ -9,4 +10,3 @@ venv
 app/token_youtube.json
 app/my_subscriptions.txt
 .env
-.env-pg

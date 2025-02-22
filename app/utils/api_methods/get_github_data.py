@@ -59,8 +59,10 @@ async def get_github_notifications(timedelta_days=2) -> list[Github_Schema] | No
                                     actor_url=user['html_url'],
                                     created_at=formatted_date,
                                 ))
-     
-        return result
+            return result
+        
+        else:
+            return f"Ошибка: {response.status_code}, {response.text}"
         
     except Exception as e:
         print(f"Произошла ошибка: {e}")
