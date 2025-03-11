@@ -1,7 +1,7 @@
 import requests
 from datetime import datetime, timedelta
-from app.dependencies import github_api_token
-from app.schemas.api_schemas import Github_Schema
+from src.config import github_api_token
+from src.schemas.services import Github_Schema
 
 # Заголовки с авторизацией
 headers = {
@@ -62,7 +62,8 @@ async def get_github_notifications(timedelta_days=2) -> list[Github_Schema] | No
             return result
         
         else:
-            return f"Ошибка: {response.status_code}, {response.text}"
+            print(f"Ошибка GitHub: {response.status_code}, {response.text}")
+            return
         
     except Exception as e:
         print(f"Произошла ошибка: {e}")

@@ -1,7 +1,7 @@
 import requests
 from datetime import datetime
-from app.dependencies import modrinth_api_token, modrinth_user
-from app.schemas.api_schemas import Modrinth_Schema
+from src.config import modrinth_api_token, modrinth_user
+from src.schemas.services import Modrinth_Schema
 
 # URL для получения уведомлений
 BASE_URL = "https://api.modrinth.com/v2"
@@ -13,7 +13,7 @@ headers = {
     "Content-Type": "application/json",
 }
 
-async def get_modrinth_notifications(count=5) -> list[Modrinth_Schema]:
+async def get_modrinth_notifications(count=5) -> list[Modrinth_Schema] | str:
     try:
         # Отправляем запрос к API
         response = requests.get(NOTIFICATIONS_ENDPOINT, headers=headers)
@@ -24,10 +24,10 @@ async def get_modrinth_notifications(count=5) -> list[Modrinth_Schema]:
 
             for notification in notifications[0:count]:
 
-                responce_project = requests.get(f"{BASE_URL}/project/{notification['body']["project_id"]}", headers=headers)
+                response_project = requests.get(f"{BASE_URL}/project/{notification['body']["project_id"]}", headers=headers)
                 
-                if responce_project.status_code == 200:
-                    data = responce_project.json()
+                if response_project.status_code == 200:
+                    data = response_project.json()
                     # TODO: Не та тайм зона нужно переделать на utc +3
                     date_obj = datetime.strptime(data['updated'], "%Y-%m-%dT%H:%M:%S.%fZ")
                     formatted_date = date_obj.strftime("%Y-%m-%d %H:%M")
@@ -40,7 +40,7 @@ async def get_modrinth_notifications(count=5) -> list[Modrinth_Schema]:
                                         link=f'https://modrinth.com{notification['link']}'))
 
                 else:
-                    return f"Ошибка: {responce_project.status_code}, {responce_project.text}"
+                    return f"Ошибка: {response_project.status_code}, {response_project.text}"
         else:
             return f"Ошибка: {response.status_code}, {response.text}"
         

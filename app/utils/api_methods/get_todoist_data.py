@@ -1,11 +1,11 @@
 from todoist_api_python.api_async import TodoistAPIAsync
-from app.dependencies import todoist_api_token
-from app.schemas.api_schemas import Todoist_Schema
+from src.config import todoist_api_token
+from src.schemas.services import Todoist_Schema
 from datetime import datetime
 
 
-async def get_today_tasks() -> list[Todoist_Schema]:
-    api = TodoistAPIAsync(todoist_api_token)
+async def get_today_tasks() -> list[Todoist_Schema] | str:
+    api = TodoistAPIAsync(str(todoist_api_token))
     result = []
     
     try:

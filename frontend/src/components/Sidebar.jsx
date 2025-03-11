@@ -34,6 +34,11 @@ const Sidebar = () => {
       key: "Achievement",
       icon: <UserOutlined />,
     },
+    {
+      label: <Link to="/Chat">Чат</Link>,
+      key: "Chat",
+      icon: <UserOutlined />,
+    }
   ];
 
   return (

@@ -1,7 +1,7 @@
 import scrapetube
-from app.schemas.api_schemas import Youtube_Schema
+from src.schemas.services import Youtube_Schema
 
-async def get_youtube_videos() -> list[Youtube_Schema]:
+async def get_youtube_videos() -> list[Youtube_Schema] | str:
     with open(file='app/my_subscriptions.txt', mode='r', encoding='utf-8') as my_subscriptions:
         channel_usernames = my_subscriptions.read().split('\n')
 
@@ -14,7 +14,8 @@ async def get_youtube_videos() -> list[Youtube_Schema]:
 
         try:
             for video in videos:
-                if 'day' not in video['publishedTimeText']['simpleText'] and 'month' not in video['publishedTimeText']['simpleText'] and 'week' not in video['publishedTimeText']['simpleText'] and 'year' not in video['publishedTimeText']['simpleText']:
+                lst = ['day', 'month', 'week', 'year']
+                if all([True if x in video['publishedTimeText']['simpleText'] else False for x in lst]):
                     all_videos.append(
                         Youtube_Schema(
                             title=video['title']['runs'][0]['text'],

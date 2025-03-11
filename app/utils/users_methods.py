@@ -1,9 +1,9 @@
-from app.db.session import SesionDep
+from src.database import SesionDep
 from sqlalchemy import select
 
-from app.db.models import UserModel
-from app.schemas.user import UserCreate, UserOut
-from app.dependencies import list_of_admins
+from src.models.users import UserModel
+from src.schemas.user import UserCreate, UserOut
+from src.config import list_of_admins
 
 
 async def create_user(data: UserCreate, session: SesionDep) -> dict[str, str]:
@@ -33,13 +33,13 @@ async def create_user(data: UserCreate, session: SesionDep) -> dict[str, str]:
     return {'status': 'Пользователь успешно создан'}
 
 
-async def delete_user_by_id(user_id: int, session: SesionDep) -> UserModel | None:
+async def delete_user_by_id(user_id: int, session: SesionDep) -> UserModel | dict[str, str]:
     """
     Удаляет пользователя из базы данных по его идентификатору
 
     :param id: int
     :param session: SesionDep
-    :return: User | None
+    :return: User | dict[str, str]
     """
     if not await session.scalar(select(UserModel).where(UserModel.id == user_id)):
         return {'error': 'Пользователь не найден'}

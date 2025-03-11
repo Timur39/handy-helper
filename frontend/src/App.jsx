@@ -8,6 +8,7 @@ import News from "./pages/News.jsx";
 import Quotes from "./pages/Quotes.jsx";
 import Achievement from "./pages/Achievement.jsx";
 import Video from "./pages/Video.jsx";
+import Chat from "./pages/Chat.jsx";
 
 
 const queryClient = new QueryClient();
@@ -28,6 +29,7 @@ const App = () => {
               <Route path="/Quotes" element={<Quotes />} />
               <Route path="/Achievement" element={<Achievement />} />
               <Route path="/Video" element={<Video />} />
+              <Route path="/Chat" element={<Chat />} />
             </Routes>
           </div>
         </div>
