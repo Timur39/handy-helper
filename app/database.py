@@ -6,7 +6,7 @@ from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine, Asyn
 
 from typing import Annotated
 
-from src.config_db import settings
+from app.config_db import settings
 
 # URL для подключения к PostgreSQL
 DATABASE_URL = settings.get_db_url()

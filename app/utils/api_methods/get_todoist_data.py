@@ -1,6 +1,6 @@
 from todoist_api_python.api_async import TodoistAPIAsync
-from src.config import todoist_api_token
-from src.schemas.services import Todoist_Schema
+from app.config import todoist_api_token
+from app.schemas.services import Todoist_Schema
 from datetime import datetime
 
 

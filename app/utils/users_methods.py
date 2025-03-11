@@ -1,9 +1,8 @@
-from src.database import SesionDep
 from sqlalchemy import select
-
-from src.models.users import UserModel
-from src.schemas.user import UserCreate, UserOut
-from src.config import list_of_admins
+from app.config import list_of_admins
+from app.database import SesionDep
+from app.models.users import UserModel
+from app.schemas.user import UserCreate, UserOut
 
 
 async def create_user(data: UserCreate, session: SesionDep) -> dict[str, str]:

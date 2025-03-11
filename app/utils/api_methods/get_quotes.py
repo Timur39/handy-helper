@@ -1,5 +1,5 @@
 import yfinance as yf
-from src.schemas.services import Price_Schema
+from app.schemas.services import Price_Schema
 
 async def get_currencies_price() -> list[Price_Schema] | None:
     try:

@@ -1,7 +1,7 @@
 import requests
 from datetime import datetime
-from src.config import modrinth_api_token, modrinth_user
-from src.schemas.services import Modrinth_Schema
+from app.config import modrinth_api_token, modrinth_user
+from app.schemas.services import Modrinth_Schema
 
 # URL для получения уведомлений
 BASE_URL = "https://api.modrinth.com/v2"

@@ -1,12 +1,13 @@
 from fastapi import APIRouter
-from src.utils.users_methods import get_all_users, create_user, delete_user_by_id
-from src.database import SesionDep, setup_database
-from src.schemas.user import UserCreate, UserOut
+from app.utils.users_methods import get_all_users, create_user, delete_user_by_id
+from app.database import SesionDep, setup_database
+from app.schemas.user import UserCreate, UserOut
 from async_lru import alru_cache
 
 router = APIRouter(tags=['auth'])
 
 ttl_cache = 3600
+
 
 @router.get("/users", summary="Получить всех пользователей")
 @alru_cache(ttl=ttl_cache)

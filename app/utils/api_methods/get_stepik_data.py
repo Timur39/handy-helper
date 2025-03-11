@@ -1,6 +1,6 @@
 import requests
-from src.config import user_id, client_id, client_secret
-from src.schemas.services import Stepik_Schema
+from app.config import user_id, client_id, client_secret
+from app.schemas.services import Stepik_Schema
 
 async def get_access_token():
     token_url = 'https://stepik.org/oauth2/token/'

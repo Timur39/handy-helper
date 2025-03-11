@@ -1,5 +1,5 @@
 import scrapetube
-from src.schemas.services import Youtube_Schema
+from app.schemas.services import Youtube_Schema
 
 async def get_youtube_videos() -> list[Youtube_Schema] | str:
     with open(file='app/my_subscriptions.txt', mode='r', encoding='utf-8') as my_subscriptions:
