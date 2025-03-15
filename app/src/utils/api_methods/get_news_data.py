@@ -1,8 +1,8 @@
 from datetime import datetime, timedelta
 from telethon.sync import TelegramClient
 from telethon.tl.functions.messages import GetHistoryRequest
-from src.config import CHANNELS, api_hash, api_id
-from src.schemas.services import News_Schema
+from app.src.config import CHANNELS, api_hash, api_id
+from app.src.schemas.services import News_Schema
 import asyncio
 
 

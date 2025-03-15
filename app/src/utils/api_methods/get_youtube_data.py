@@ -1,7 +1,7 @@
 import scrapetube
-from src.schemas.services import Youtube_Schema
+from app.src.schemas.services import Youtube_Schema
 
-async def get_youtube_videos() -> list[Youtube_Schema] | str:
+async def get_youtube_videos() -> list[Youtube_Schema] | str | Exception:
     with open(file='src/my_subscriptions.txt', mode='r', encoding='utf-8') as my_subscriptions:
         channel_usernames = my_subscriptions.read().split('\n')
 

@@ -1,7 +1,7 @@
 import requests
 from datetime import datetime, timedelta
-from src.config import github_api_token
-from src.schemas.services import Github_Schema
+from app.src.config import github_api_token
+from app.src.schemas.services import Github_Schema
 
 # Заголовки с авторизацией
 headers = {

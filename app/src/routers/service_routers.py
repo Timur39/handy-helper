@@ -1,14 +1,14 @@
 from fastapi import APIRouter, Depends
-from src.utils.api_methods.get_github_data import get_github_notifications
-from src.utils.api_methods.get_gmail_data import get_gmails
-from src.utils.api_methods.get_news_data import get_all_news
-from src.utils.api_methods.get_modrinth_data import get_modrinth_notifications
-from src.utils.api_methods.get_quotes import get_currencies_price
-from src.utils.api_methods.get_stepik_data import get_user_activity
-from src.utils.api_methods.get_todoist_data import get_today_tasks
-from src.utils.api_methods.get_youtube_data import get_youtube_videos
+from app.src.utils.api_methods.get_github_data import get_github_notifications
+from app.src.utils.api_methods.get_gmail_data import get_gmails
+from app.src.utils.api_methods.get_news_data import get_all_news
+from app.src.utils.api_methods.get_modrinth_data import get_modrinth_notifications
+from app.src.utils.api_methods.get_quotes import get_currencies_price
+from app.src.utils.api_methods.get_stepik_data import get_user_activity
+from app.src.utils.api_methods.get_todoist_data import get_today_tasks
+from app.src.utils.api_methods.get_youtube_data import get_youtube_videos
 from async_lru import alru_cache
-from src.schemas.services import Github_Schema, News_Schema, Price_Schema, Gmail_Schema, \
+from app.src.schemas.services import Github_Schema, News_Schema, Price_Schema, Gmail_Schema, \
                                     Todoist_Schema, Modrinth_Schema, Stepik_Schema, Youtube_Schema
 router = APIRouter(tags=["api"], prefix='/api')
 ttl_cache = 3600

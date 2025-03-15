@@ -3,7 +3,7 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from google.auth.transport.requests import Request
 from datetime import datetime
-from src.schemas.services import Gmail_Schema
+from app.src.schemas.services import Gmail_Schema
 import asyncio
 import os
 

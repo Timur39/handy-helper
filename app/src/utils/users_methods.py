@@ -1,11 +1,11 @@
 from sqlalchemy import select
-from src.config import list_of_admins
-from src.database import SesionDep
-from src.models.users import UserModel
-from src.schemas.user import UserCreate, UserOut
+from app.src.config import list_of_admins
+from app.src.database import SesionDep
+from app.src.models.users import UserModel
+from app.src.schemas.user import User
 
 
-async def create_user(data: UserCreate, session: SesionDep) -> dict[str, str]:
+async def create_user(data: User, session: SesionDep) -> dict[str, str]:
     """
     Создает нового пользователя
 
@@ -21,9 +21,9 @@ async def create_user(data: UserCreate, session: SesionDep) -> dict[str, str]:
         admin = True
 
     user = UserModel(username=data.username, 
-                email=data.email, 
-                password=data.password, 
-                admin=admin)
+                    email=data.email, 
+                    password=data.password, 
+                    admin=admin)
     
     session.add(user)
 
@@ -51,7 +51,7 @@ async def delete_user_by_id(user_id: int, session: SesionDep) -> UserModel | dic
     return obj
 
 
-async def get_all_users(session: SesionDep) -> list[UserModel]:
+async def get_all_users(session: SesionDep) -> list[User]:
     """
     Возвращает всех пользователей из базы данных
 
@@ -65,8 +65,23 @@ async def get_all_users(session: SesionDep) -> list[UserModel]:
     result = await session.execute(query)
 
     # Извлекаем записи как объекты модели
-    records = result.scalars().all()
+    records = result.scalars().all()    
     result = [UserModel(username=i.username, email=i.email, password=i.password, admin=i.admin) for i in records]
 
     # Возвращаем список всех пользователей
     return result
+
+
+async def get_user_by_name(username: int, session: SesionDep) -> list[User]:
+    """
+    Возвращает пользователя из базы данных по его username
+
+    :param session: SesionDep
+    :return: list[UserModel]
+    """
+    if not await session.scalar(select(UserModel).where(UserModel.username == username)):
+        return {'error': 'Пользователь не найден'}
+    
+    obj = await session.scalar(select(UserModel).where(UserModel.username == username))
+
+    return obj
