@@ -1,7 +1,7 @@
 from fastapi import APIRouter
-from src.utils.users_methods import get_all_users, create_user, delete_user_by_id
-from src.database import SesionDep, setup_database
-from src.schemas.user import UserCreate, UserOut
+from app.src.utils.users_methods import get_all_users, create_user, delete_user_by_id
+from app.src.database import SesionDep, setup_database
+from app.src.schemas.user import UserCreate
 from async_lru import alru_cache
 
 router = APIRouter(tags=['auth'])

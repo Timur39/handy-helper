@@ -2,10 +2,10 @@ from sqlalchemy import select
 from app.src.config import list_of_admins
 from app.src.database import SesionDep
 from app.src.models.users import UserModel
-from app.src.schemas.user import User
+from app.src.schemas.user import UserBase
 
 
-async def create_user(data: User, session: SesionDep) -> dict[str, str]:
+async def create_user(data: UserBase, session: SesionDep) -> dict[str, str]:
     """
     Создает нового пользователя
 
@@ -51,7 +51,7 @@ async def delete_user_by_id(user_id: int, session: SesionDep) -> UserModel | dic
     return obj
 
 
-async def get_all_users(session: SesionDep) -> list[User]:
+async def get_all_users(session: SesionDep) -> list[UserBase]:
     """
     Возвращает всех пользователей из базы данных
 
@@ -72,7 +72,7 @@ async def get_all_users(session: SesionDep) -> list[User]:
     return result
 
 
-async def get_user_by_name(username: int, session: SesionDep) -> list[User]:
+async def get_user_by_name(username: int, session: SesionDep) -> list[UserBase]:
     """
     Возвращает пользователя из базы данных по его username
 

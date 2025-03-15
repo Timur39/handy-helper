@@ -1,7 +1,7 @@
 from fastapi import APIRouter, BackgroundTasks
 from async_lru import alru_cache
 from email.message import EmailMessage
-from src.config import SMTP_USER, SMTP_PASSWORD
+from app.src.config import SMTP_USER, SMTP_PASSWORD
 import smtplib
 from datetime import datetime
 
